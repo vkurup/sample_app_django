@@ -1,11 +1,8 @@
 from django.conf.urls import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
-
-urlpatterns = patterns('',
-                       url(r'^static_pages/', include('static_pages.urls')),
+urlpatterns = patterns('static_pages.views',
+                       url(r'^home$', 'home'),
+                       url(r'^help$', 'help'),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),
     # url(r'^sample_app/', include('sample_app.foo.urls')),
