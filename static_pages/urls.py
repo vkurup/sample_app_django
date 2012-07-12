@@ -1,8 +1,10 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('static_pages.views',
-                       url(r'^home$', 'home'),
-                       url(r'^help$', 'help'),
+urlpatterns = patterns(
+    'static_pages.views',
+    url(r'^home$', 'home'),
+    url(r'^help$', 'help'),
+    url(r'^about$', 'about'),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),
     # url(r'^sample_app/', include('sample_app.foo.urls')),
