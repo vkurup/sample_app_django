@@ -1,10 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Tutorial Sample App | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'application.css' %}" type="text/css" media="all" />
+    <script type="text/javascript" src="{% static 'application.js' %}"></script>
+    {% include "_shim.html" %}
   </head>
   <body>
-    {% block content %}
-    {% endblock %}
+    {% include "_header.html" %}
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+    {% include "_footer.html" %}
   </body>
 </html>

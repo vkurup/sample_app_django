@@ -1,9 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1>Sample App</h1>
-<p>
-  This is the home page for the Ruby on Rails Tutorial sample application.
-</p>
+<div class="center hero-unit">
+  <h1>Sample App</h1>
+
+  <h2>
+    This is the home page for the Ruby on Rails Tutorial sample application. (Adapted to Django)
+  </h2>
+
+  <a class="btn btn-large btn-primary" href="{% url signup %}">Sign up now!</a>
+</div>
+
+<a href="http://www.djangoproject.com/"><img alt="Django" src="{% static 'django.gif' %}" /></a>
 {% endblock %}

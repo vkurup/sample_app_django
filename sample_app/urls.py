@@ -4,8 +4,11 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
-                       url(r'^static_pages/', include('static_pages.urls')),
+urlpatterns = patterns(
+    '',
+    url(r'^signup', 'users.views.new', name='signup'),
+    url(r'^users/', include('users.urls')),
+    url(r'', include('static_pages.urls')),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),
     # url(r'^sample_app/', include('sample_app.foo.urls')),
