@@ -5,6 +5,7 @@ urlpatterns = patterns(
     url(r'^home$', 'home'),
     url(r'^help$', 'help'),
     url(r'^about$', 'about'),
+    url(r'^contact$', 'contact'),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),
     # url(r'^sample_app/', include('sample_app.foo.urls')),

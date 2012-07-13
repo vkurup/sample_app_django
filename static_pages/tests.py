@@ -43,3 +43,17 @@ class AboutPageTest(TestCase):
         response = c.get('/static_pages/about')
         self.assertContains(response, '<title>Tutorial Sample App | About</title>')
 
+class ContactPageTest(TestCase):
+    def test_should_have_right_content(self):
+        """
+        Contact page should have the content 'Contact Me'.
+        """
+        c = Client()
+        response = c.get('/static_pages/contact')
+        self.assertContains(response, 'Contact Me')
+
+    def test_should_have_right_title(self):
+        c = Client()
+        response = c.get('/static_pages/contact')
+        self.assertContains(response, '<title>Tutorial Sample App | Contact Me</title>')
+
