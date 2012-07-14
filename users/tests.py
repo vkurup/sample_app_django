@@ -18,6 +18,8 @@ class UserPagesTest(TestCase):
 class UserTest(TestCase):
     def setUp(self):
         self.user = User(name='Example User', email='user@example.com')
+        self.user.password = 'foobar'
+        self.user.password_confirmation = 'foobar'
         self.user.save()
 
     def test_name_present(self):
@@ -44,13 +46,13 @@ class UserTest(TestCase):
     def test_user_invald_when_name_too_long(self):
         self.user.name = 'a' * 51
         self.assertRaisesMessage(ValidationError, '', self.user.full_clean)
-        
+
     def test_user_invalid_when_email_invalid(self):
         addresses = 'user@foo,com user_at_foo.org example.user@foo. foo@bar_baz.com foo@bar+baz.com'.split()
         for email in addresses:
             self.user.email = email
             self.assertRaisesMessage(ValidationError, 'Enter a valid e-mail address', self.user.full_clean)
-        
+
     def test_user_valid_when_email_valid(self):
         addresses = 'user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn'.split()
         for email in addresses:
@@ -63,3 +65,24 @@ class UserTest(TestCase):
         user_with_same_email = self.user
         user_with_same_email.email = self.user.email.upper()
         self.assertRaisesMessage(ValidationError, '', user_with_same_email.full_clean)
+
+    def test_user_invalid_when_password_absent(self):
+        self.user.password = self.user.password_confirmation = ' '
+        self.assertRaisesMessage(ValidationError, '', self.user.full_clean)
+
+    def test_user_invalid_when_password_mismatch(self):
+        self.user.password = 'mismatch'
+        self.assertRaisesMessage(ValidationError, '', self.user.full_clean)
+
+    def test_authenticate_returns_user_if_password_correct(self):
+        found_user = User.objects.get(email=self.user.email)
+        self.assertEquals(self.user, found_user.authenticate(self.user.password))
+
+    def test_authenticate_returns_false_if_password_incorrect(self):
+        found_user = User.objects.get(email=self.user.email)
+        self.assertFalse(found_user.authenticate('invalid'))
+
+    def test_user_invalid_when_password_too_short(self):
+        self.user.password = self.user.password_confirmation = 'a' * 5
+        self.assertRaisesMessage(ValidationError, '', self.user.full_clean)
+        
