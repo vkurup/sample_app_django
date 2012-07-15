@@ -4,5 +4,13 @@
 {% block content %}
 <h1>Sign up</h1>
 
-<p>Stub page</p>
+<div class="row">
+  <div class="span6 offset3">
+    <form action="/users/new" class="new_user" id="new_user" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input class="btn btn-large btn-primary" type="submit" name="submit" value="Create my account" />
+    </form>
+  </div>
+</div>
 {% endblock %}

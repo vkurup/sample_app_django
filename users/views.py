@@ -1,4 +1,32 @@
-from django.shortcuts import render_to_response
+import hashlib
+from django.shortcuts import render, redirect
+from models import User
+from forms import UserForm
 
 def new(request):
-    return render_to_response('users/new.html')
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return redirect(new_user)
+    else:
+        form = UserForm()
+
+    return render(request, 'users/new.html', {'form': form})
+
+def show(request, user_id):
+    user = User.objects.get(id=user_id)
+    gravatar_id = hashlib.md5(user.email.lower()).hexdigest()
+    gravatar_url = "https://secure.gravatar.com/avatar/%s" % (gravatar_id)
+    return render(request, 'users/show.html', {'user': user, 
+                                               'gravatar_url': gravatar_url})
+
+def index(request):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        # create
+        return render(request, 'users/show.html', {})
+
+def edit(request):
+    pass

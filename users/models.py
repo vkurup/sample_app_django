@@ -5,27 +5,15 @@ from django.db import models
 class User(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
-    password_digest = models.CharField(max_length=200, blank=True)
+    password_digest = models.CharField(max_length=200, blank=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    password = ''
-    password_confirmation = ''
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.email)
 
     def clean(self):
         self.email = self.email.lower()
-
-        if self.password.strip() == '':
-            raise ValidationError('Password cannot be blank')
-        if len(self.password.strip()) < 6:
-            raise ValidationError('Password too short')
-        if self.password == self.password_confirmation:
-            self.password_digest = hashlib.sha256(self.password).hexdigest()
-        else:
-            raise ValidationError('Password must match confirmation')
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -38,3 +26,5 @@ class User(models.Model):
         else:
             return False
 
+    def get_absolute_url(self):
+        return "/users/%i" % self.id
