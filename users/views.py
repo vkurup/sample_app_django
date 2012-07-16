@@ -1,5 +1,6 @@
 import hashlib
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from models import User
 from forms import UserForm
 
@@ -8,6 +9,7 @@ def new(request):
         form = UserForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+            messages.success(request, 'Profile successfully created.')
             return redirect(new_user)
     else:
         form = UserForm()
