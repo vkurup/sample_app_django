@@ -10,7 +10,10 @@ def new(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = User.objects.get(email__exact=email)
+            try:
+                user = User.objects.get(email__exact=email)
+            except User.DoesNotExist:
+                user = None
             if user and user.authenticate(password):
                 request.session['current_user'] = user
                 messages.success(request, 'Login successful.')

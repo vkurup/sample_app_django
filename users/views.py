@@ -15,13 +15,14 @@ def new(request):
     else:
         form = UserForm()
 
-    return render(request, 'users/new.html', locals())
+    return render(request, 'users/new.html', {'form': form})
 
 def show(request, user_id):
     user = User.objects.get(id=user_id)
     gravatar_id = hashlib.md5(user.email.lower()).hexdigest()
     gravatar_url = "https://secure.gravatar.com/avatar/%s" % (gravatar_id)
-    return render(request, 'users/show.html', locals())
+    return render(request, 'users/show.html', {'user': user, 
+                                               'gravatar_url':gravatar_url})
 
 def index(request):
     if request.method == 'GET':
