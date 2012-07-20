@@ -1,13 +1,13 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 def home(request):
-    return render_to_response('static_pages/home.html')
+    return render(request, 'static_pages/home.html', locals())
 
 def help(request):
-    return render_to_response('static_pages/help.html')
+    return render(request, 'static_pages/help.html', locals())
 
 def about(request):
-    return render_to_response('static_pages/about.html')
+    return render(request, 'static_pages/about.html', locals())
 
 def contact(request):
-    return render_to_response('static_pages/contact.html')
+    return render(request, 'static_pages/contact.html', locals())
