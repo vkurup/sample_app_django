@@ -7,7 +7,10 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns(
     '',
     url(r'^signup', 'users.views.new', name='signup'),
+    url(r'^signin', 'rsessions.views.new', name='signin'),
+    url(r'^signout', 'rsessions.views.delete', name='signout'),
     url(r'^users/', include('users.urls')),
+    url(r'^rsessions/', include('rsessions.urls')),
     url(r'', include('static_pages.urls')),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),
