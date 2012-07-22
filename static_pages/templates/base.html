@@ -4,7 +4,6 @@
   <head>
     <title>Tutorial Sample App | {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'application.css' %}" type="text/css" media="all" />
-    <script type="text/javascript" src="{% static 'application.js' %}"></script>
     {% include "_shim.html" %}
   </head>
   <body>
@@ -14,7 +13,7 @@
       {% endblock %}
     </div>
     {% include "_footer.html" %}
-    <script src="{% static 'jquery-1.7.2.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery-1.7.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
   </body>
 </html>
