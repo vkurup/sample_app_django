@@ -14,7 +14,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a href="{% url user request.session.current_user.id %}">Profile</a></li>
-              <li><a href="#">Settings</a></li>
+              <li><a href="{% url edit_user request.session.current_user.id %}">Settings</a></li>
               <li class="divider"></li>
               <li><a href="{% url signout %}">Sign out</a></li>
             </ul>

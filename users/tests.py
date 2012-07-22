@@ -58,6 +58,23 @@ class UserProfilePageTest(TestCase):
         title = '<title>Tutorial Sample App | ' + self.user.name + '</title>'
         self.assertContains(self.response, title)
 
+class UserProfileEditPageTest(TestCase):
+    fixtures = ['users.json']
+    def setUp(self):
+        user_id = 1
+        self.user = User.objects.get(id=user_id)
+        self.response = self.client.get(reverse('edit_user', args=[user_id]))
+
+    def test_should_have_right_content(self):
+        self.assertContains(self.response, 'Update your profile')
+
+    def test_should_have_right_title(self):
+        title = '<title>Tutorial Sample App | Edit User</title>'
+        self.assertContains(self.response, title)
+
+    def test_should_have_link(self):
+        self.assertContains(self.response, 'http://gravatar.com/emails')
+
 class UserTest(TestCase):
     def setUp(self):
         self.password = 'foobar'
