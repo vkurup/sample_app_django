@@ -12,7 +12,7 @@ def new(request):
             micropost.user = request.session['current_user']
             micropost.save()
             messages.success(request, 'Micropost successfully created.')
-            return redirect(micropost.user)
+            return redirect(reverse('home'))
     messages.error(request, 'Content field is required.')
     return redirect(reverse('home'))
 
