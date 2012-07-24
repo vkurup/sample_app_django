@@ -1,9 +1,10 @@
-import hashlib
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from models import User
 from forms import UserForm
+from microposts.models import Micropost
 
 def new(request):
     if request.method == 'POST':
@@ -20,10 +21,19 @@ def new(request):
 
 def show(request, user_id):
     user = User.objects.get(id=user_id)
-    gravatar_id = hashlib.md5(user.email.lower()).hexdigest()
-    gravatar_url = "https://secure.gravatar.com/avatar/%s" % (gravatar_id)
+    microposts_list = Micropost.objects.filter(user=user_id)
+    paginator = Paginator(microposts_list, 50)
+
+    page = request.GET.get('page')
+    try:
+        microposts = paginator.page(page)
+    except PageNotAnInteger:
+        microposts = paginator.page(1)
+    except EmptyPage:
+        microposts = paginator.page(paginator.num_pages)
+
     return render(request, 'users/show.html', {'user': user,
-                                               'gravatar_url': gravatar_url})
+                                               'microposts': microposts})
 
 def index(request):
     if request.method == 'GET':
@@ -39,8 +49,6 @@ def edit(request, user_id):
     if request.session['current_user'].id != int(user_id):
         return redirect(reverse('home'))
     user = User.objects.get(id=user_id)
-    gravatar_id = hashlib.md5(user.email.lower()).hexdigest()
-    gravatar_url = "https://secure.gravatar.com/avatar/%s" % (gravatar_id)
     if request.method == 'POST':
         form = UserForm(request.POST, instance=user)
         if form.is_valid():
@@ -52,5 +60,4 @@ def edit(request, user_id):
         form = UserForm(instance=user)
 
     return render(request, 'users/edit.html', {'form': form,
-                                               'user': user,
-                                               'gravatar_url': gravatar_url})
+                                               'user': user})

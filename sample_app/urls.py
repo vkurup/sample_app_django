@@ -11,6 +11,7 @@ urlpatterns = patterns(
     url(r'^signout', 'rsessions.views.delete', name='signout'),
     url(r'^users/', include('users.urls')),
     url(r'^rsessions/', include('rsessions.urls')),
+    url(r'^microposts/', include('microposts.urls')),
     url(r'', include('static_pages.urls')),
     # Examples:
     # url(r'^$', 'sample_app.views.home', name='home'),

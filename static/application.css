@@ -85,9 +85,9 @@ footer {
 
 footer a {
     color: #555;
-}  
+}
 
-footer a:hover { 
+footer a:hover {
     color: #222;
 }
 
@@ -109,7 +109,7 @@ footer ul li {
 
 aside section {
     padding: 10px 0;
-    border-top: 1px solid $grayLighter;
+    border-top: 1px solid #eee;
 }
 
 aside section :first-child {
@@ -131,19 +131,19 @@ aside h1 {
 }
 
 .gravatar {
-  float: left;
-  margin-right: 10px;
+    float: left;
+    margin-right: 10px;
 }
 
 /* forms */
 
 input, textarea, select, .uneditable-input {
-  border: 1px solid #bbb;
-  width: 100%;
-  padding: 10px;
-  height: auto;
-  margin-bottom: 15px;
-  @include box_sizing;
+    border: 1px solid #bbb;
+    width: 90%;
+    padding: 10px;
+    height: auto;
+    margin-bottom: 15px;
+    @include box_sizing;
 }
 
 .errorlist {
@@ -153,4 +153,32 @@ input, textarea, select, .uneditable-input {
 ul.errorlist {
     list-style: none;
     margin: 0 0 18px 0;
+}
+
+/* microposts */
+
+.microposts {
+    list-style: none;
+    margin: 10px 0 0 0;
+}
+
+.microposts li {
+    padding: 10px 0 30px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.content {
+    display: block;
+}
+.timestamp {
+    color: #999;
+}
+.gravatar {
+    float: left;
+    margin-right: 10px;
+}
+
+aside textarea {
+    height: 100px;
+    margin-bottom: 5px;
 }

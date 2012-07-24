@@ -3,22 +3,41 @@
 {% block title %}{{ user.name }}{% endblock %}
 
 {% block content %}
-{% if messages %}
-<ul class="messages">
-  {% for message in messages %}
-  <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
-
 <div class="row">
   <aside class="span4">
     <section>
       <h1>
-        <img src="{{ gravatar_url }}" alt="{{ user.name }}" class="gravatar" />
+        {{ user.gravatar|safe }}
         {{ user.name }}
       </h1>
     </section>
   </aside>
+  <div class="span8">
+    <h3>Microposts ({{ microposts.paginator.count }})</h3>
+    <ol class="microposts">
+      {% for m in microposts %}
+      <li>
+        <span class="content">{{ m.content }}</span>
+        <span class="timestamp">Posted {{ m.created_at|timesince }} ago</span>
+      </li>
+      {% endfor %}
+    </ol>
+
+    <div class="pagination">
+      <span class="step-links">
+        {% if microposts.has_previous %}
+        <a href="?page={{ microposts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+          Page {{ microposts.number }} of {{ microposts.paginator.num_pages }}
+        </span>
+
+        {% if microposts.has_next %}
+        <a href="?page={{ microposts.next_page_number }}">next</a>
+        {% endif %}
+      </span>
+    </div>
+  </div>
 </div>
 {% endblock %}

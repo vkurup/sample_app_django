@@ -12,7 +12,7 @@
       <input class="btn btn-large btn-primary" type="submit" name="submit" value="Update settings" />
     </form>
 
-    <img src="{{ gravatar_url }}" alt="{{ user.name }}" class="gravatar" />
+    {{ user.gravatar|safe }}
     <a href="http://gravatar.com/emails">change</a>
   </div>
 </div>

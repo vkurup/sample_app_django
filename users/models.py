@@ -1,6 +1,7 @@
 import hashlib
-from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import html
+from microposts.models import Micropost
 
 class User(models.Model):
     name = models.CharField(max_length=50)
@@ -28,3 +29,12 @@ class User(models.Model):
 
     def get_absolute_url(self):
         return "/users/%i" % self.id
+
+    def feed(self):
+        return Micropost.objects.filter(user=self.id)
+
+    def gravatar(self):
+        gravatar_id = hashlib.md5(self.email.lower()).hexdigest()
+        gravatar_url = "https://secure.gravatar.com/avatar/%s" % (gravatar_id)
+        name = html.escape(self.name)
+        return '<img src="%s" alt="%s" class="gravatar" />' % (gravatar_url, name)

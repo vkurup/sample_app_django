@@ -11,7 +11,7 @@ def new(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             try:
-                user = User.objects.get(email__exact=email)
+                user = User.objects.get(email=email)
             except User.DoesNotExist:
                 user = None
             if user and user.authenticate(password):
