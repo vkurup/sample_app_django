@@ -23,6 +23,14 @@ def show(request, user_id):
     user = User.objects.get(id=user_id)
     microposts_list = Micropost.objects.filter(user=user_id)
     paginator = Paginator(microposts_list, 50)
+    button = None
+
+    if 'current_user' in request.session:
+        if user != request.session['current_user']:
+            if request.session['current_user'].following_p(user):
+                button = 'unfollow'
+            else:
+                button = 'follow'
 
     page = request.GET.get('page')
     try:
@@ -33,7 +41,8 @@ def show(request, user_id):
         microposts = paginator.page(paginator.num_pages)
 
     return render(request, 'users/show.html', {'user': user,
-                                               'microposts': microposts})
+                                               'microposts': microposts,
+                                               'button': button})
 
 def index(request):
     if request.method == 'GET':
@@ -61,3 +70,67 @@ def edit(request, user_id):
 
     return render(request, 'users/edit.html', {'form': form,
                                                'user': user})
+
+def following(request, user_id):
+    user = User.objects.get(id=user_id)
+    title = "Following"
+    users_list = user.followed_users.all()
+    paginator = Paginator(users_list, 50)
+
+    page = request.GET.get('page')
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    return render(request, 'users/show_follow.html', {'user': user,
+                                                      'title': title,
+                                                      'users': users})
+
+def followers(request, user_id):
+    user = User.objects.get(id=user_id)
+    title = "Followers"
+    users_list = user.followers.all()
+    paginator = Paginator(users_list, 50)
+
+    page = request.GET.get('page')
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    return render(request, 'users/show_follow.html', {'user': user,
+                                                      'title': title,
+                                                      'users': users})
+
+def unfollow(request, user_id):
+    if 'current_user' not in request.session:
+        messages.warning(request, 'Please sign in.')
+        return redirect(reverse('signin'))
+    if request.session['current_user'].id != int(user_id):
+        return redirect(reverse('home'))
+
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        follow_id = request.POST['follow_id']
+        follow_user = User.objects.get(id=follow_id)
+        user.unfollow(follow_user)
+        return redirect(follow_user)
+
+def follow(request, user_id):
+    if 'current_user' not in request.session:
+        messages.warning(request, 'Please sign in.')
+        return redirect(reverse('signin'))
+    if request.session['current_user'].id != int(user_id):
+        return redirect(reverse('home'))
+
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        follow_id = request.POST['follow_id']
+        follow_user = User.objects.get(id=follow_id)
+        user.follow(follow_user)
+        return redirect(follow_user)

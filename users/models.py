@@ -9,6 +9,16 @@ class User(models.Model):
     password_digest = models.CharField(max_length=200, blank=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    followers = models.ManyToManyField('self',
+                                       related_name='follower',
+                                       symmetrical=False,
+                                       blank=True,
+                                       null=True)
+    followed_users = models.ManyToManyField('self',
+                                            related_name='followed_user',
+                                            symmetrical=False,
+                                            blank=True,
+                                            null=True)
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.email)
@@ -31,10 +41,26 @@ class User(models.Model):
         return "/users/%i" % self.id
 
     def feed(self):
-        return Micropost.objects.filter(user=self.id)
+        user_list = [self]
+        user_list.extend(self.followed_users.all())
+        return Micropost.objects.filter(user__in=user_list)
 
-    def gravatar(self):
+    def following_p(self, other_user):
+        return other_user in self.followed_users.all()
+
+    def follow(self, other_user):
+        self.followed_users.add(other_user)
+        other_user.followers.add(self)
+
+    def unfollow(self, other_user):
+        self.followed_users.remove(other_user)
+        other_user.followers.remove(self)
+
+    def gravatar(self, size=50):
         gravatar_id = hashlib.md5(self.email.lower()).hexdigest()
-        gravatar_url = "https://secure.gravatar.com/avatar/%s" % (gravatar_id)
+        gravatar_url = "https://secure.gravatar.com/avatar/%s?s=%d" % (gravatar_id, size)
         name = html.escape(self.name)
         return '<img src="%s" alt="%s" class="gravatar" />' % (gravatar_url, name)
+
+    def gravatar_small(self):
+        return self.gravatar(30)

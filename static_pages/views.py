@@ -12,10 +12,12 @@ def home(request):
     else:
         gravatar = ''
         micropost_count = 0
+        feed_items = ''
     return render(request, 'static_pages/home.html', {'form': form,
                                                       'gravatar': gravatar,
                                                       'micropost_count': micropost_count,
-                                                      'feed_items': feed_items})
+                                                      'feed_items': feed_items,
+                                                      'user': user})
 
 def help(request):
     return render(request, 'static_pages/help.html')

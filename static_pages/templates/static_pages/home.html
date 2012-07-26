@@ -14,6 +14,9 @@
       <span>{{ micropost_count }} microposts</span>
     </section>
     <section>
+      {% include "_stats.html" %}
+    </section>
+    <section>
       <form action="{% url new_micropost %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -43,6 +46,8 @@
       </li>
       {% endfor %}
     </ol>
+    {% else %}
+    <p>Come on, say something!</p>
     {% endif %}
   </div>
 </div>

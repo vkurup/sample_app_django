@@ -11,7 +11,30 @@
         {{ user.name }}
       </h1>
     </section>
+    <section>
+      {% include "_stats.html" %}
+    </section>
   </aside>
+  <div class="span8">
+    {% if button %}
+    <div id="follow_form">
+      {% if button == "follow" %}
+      <form action="{% url follow_user request.session.current_user.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="follow_id" value="{{ user.id }}" />
+        <input type="submit" class="btn btn-large btn-primary" name="follow" value="Follow" />
+      </form>
+      {% else %}
+      <form action="{% url unfollow_user request.session.current_user.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="follow_id" value="{{ user.id }}" />
+        <input type="submit" class="btn btn-large" name="unfollow" value="Unfollow" />
+      </form>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
   <div class="span8">
     <h3>Microposts ({{ microposts.paginator.count }})</h3>
     <ol class="microposts">

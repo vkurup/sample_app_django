@@ -4,14 +4,6 @@
 {% block content %}
 <h1>Sign in</h1>
 
-{% if messages %}
-<ul class="messages">
-  {% for message in messages %}
-  <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
-
 <div class="row">
   <div class="span6 offset3">
     <form action="{% url signin %}" method="post">
