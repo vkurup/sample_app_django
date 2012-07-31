@@ -28,7 +28,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -133,11 +133,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'static_pages',
-    'users',
-    'rsessions',
     'microposts',
+    'accounts',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -172,4 +171,4 @@ LOGGING = {
 }
 
 LOGIN_REDIRECT_URL = reverse_lazy('home')
-AUTH_PROFILE_MODULE = 'microposts.UserProfile'
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'

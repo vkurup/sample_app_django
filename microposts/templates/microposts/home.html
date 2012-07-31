@@ -4,17 +4,18 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if request.user %}
+
+{% if user.is_authenticated %}
 <div class="row">
   <aside class="span4">
     <section>
       {{ gravatar|safe }}
-      <h1>{{ request.user.get_full_name }}</h1>
-      <span><a href="{% url user request.user.id %}">view my profile</a></span>
+      <h1>{{ user.get_full_name }}</h1>
+      <span><a href="{% url user user.username %}">view my profile</a></span>
       <span>{{ micropost_count }} microposts</span>
     </section>
     <section>
-      % include "_stats.html" %}
+      {% include "_stats.html" %}
     </section>
     <section>
       <form action="{% url new_micropost %}" method="post">
@@ -31,13 +32,13 @@
     <ol class="microposts">
       {% for mp in feed_items %}
       <li id="{{ mp.id }}">
-        {{ mp.user.gravatar|safe }}
+        {{ mp.gravatar|safe }}
         <span class="user">
-          <a href="{% url user mp.user.id %}">{{ mp.user.name }}</a>
+          <a href="{% url user mp.user.username %}">{{ mp.user.get_full_name }}</a>
         </span>
         <span class="content">{{ mp.content }}</span>
         <span class="timestamp">Posted {{ mp.created_at|timesince }} ago.</span>
-        {% if request.session.current_user == mp.user %}
+        {% if request.user == mp.user %}
         <form action="{% url delete_micropost mp.id %}" method="post">
           {% csrf_token %}
           <input class="btn" type="submit" value="Delete" />

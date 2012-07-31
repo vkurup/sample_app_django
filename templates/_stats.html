@@ -1,13 +1,13 @@
 <div class="stats">
   <a href="{% url following_user user.id %}">
     <strong id="following" class="stat">
-      {{ user.followed_users.count }}
+      {{ up.followed_users.count }}
     </strong>
     following
   </a>
   <a href="{% url followers_user user.id %}">
     <strong id="followers" class="stat">
-      {{ user.followers.count }}
+      {{ up.followers.count }}
     </strong>
     followers
   </a>

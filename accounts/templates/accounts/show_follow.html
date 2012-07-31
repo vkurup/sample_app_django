@@ -7,15 +7,16 @@
   <aside class="span4">
     <section>
       <h1>
-        {{ user.gravatar|safe }}
-        {{ user.name }}
+        {{ user.get_profile.gravatar|safe }}
+        {{ user.get_full_name }}
       </h1>
+      <span><a href="{% url user user.username %}">view my profile</a></span>
     </section>
     <section>
       {% include "_stats.html" %}
       <div class="user_avatars">
         {% for u in users %}
-        <a href="{% url user u.id %}">{{ u.gravatar_small|safe }}</a>
+        <a href="{% url user u.username %}">{{ u.get_profile.gravatar_small|safe }}</a>
         {% endfor %}
       </div>
     </section>
@@ -26,8 +27,10 @@
     <ul class="users">
       {% for u in users %}
       <li>
-        {{ u.gravatar|safe }}
-        <a href="{% url user u.id %}">{{ u.name }}<a> | <a href="">delete</a>
+        <a href="{% url user u.username %}">
+          {{ u.get_profile.gravatar|safe }}
+          {{ u.get_full_name }}
+        </a> 
       </li>
       {% endfor %}
     </ul>

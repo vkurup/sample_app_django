@@ -6,21 +6,21 @@
         <ul class="nav pull-right">
           <li><a href="{% url home %}">Home</a></li>
           <li><a href="{% url help %}">Help</a></li>
-          {% if request.session.current_user %}
+          {% if request.user.is_authenticated %}
           <li><a href="#">Users</a></li>
           <li id="fat-menu" class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="{% url user request.session.current_user.id %}">Profile</a></li>
-              <li><a href="{% url edit_user request.session.current_user.id %}">Settings</a></li>
+              <li><a href="{% url user request.user.username %}">Profile</a></li>
+              <li><a href="{% url edit_user request.user.id %}">Settings</a></li>
               <li class="divider"></li>
-              <li><a href="{% url signout %}">Sign out</a></li>
+              <li><a href="{% url logout %}">Sign out</a></li>
             </ul>
           </li>
           {% else %}
-          <li><a href="{% url signin %}">Sign in</a></li>
+          <li><a href="{% url login %}">Sign in</a></li>
           {% endif %}
         </ul>
       </nav>

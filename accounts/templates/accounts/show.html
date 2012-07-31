@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user.name }}{% endblock %}
+{% block title %}{{ user.get_full_name }}{% endblock %}
 
 {% block content %}
 <div class="row">
   <aside class="span4">
     <section>
       <h1>
-        {{ user.gravatar|safe }}
-        {{ user.name }}
+        {{ up.gravatar|safe }}
+        {{ user.get_full_name }}
       </h1>
+      <span>&nbsp;</span>
+      <span>{{ microposts.paginator.count }} microposts</span>
     </section>
     <section>
       {% include "_stats.html" %}
@@ -19,15 +21,13 @@
     {% if button %}
     <div id="follow_form">
       {% if button == "follow" %}
-      <form action="{% url follow_user request.session.current_user.id %}" method="post">
+      <form action="{% url follow_user user.id %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="follow_id" value="{{ user.id }}" />
         <input type="submit" class="btn btn-large btn-primary" name="follow" value="Follow" />
       </form>
       {% else %}
-      <form action="{% url unfollow_user request.session.current_user.id %}" method="post">
+      <form action="{% url unfollow_user user.id %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="follow_id" value="{{ user.id }}" />
         <input type="submit" class="btn btn-large" name="unfollow" value="Unfollow" />
       </form>
       {% endif %}

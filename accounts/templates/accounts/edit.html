@@ -12,7 +12,7 @@
       <input class="btn btn-large btn-primary" type="submit" name="submit" value="Update settings" />
     </form>
 
-    {{ user.gravatar|safe }}
+    {{ user.get_profile.gravatar|safe }}
     <a href="http://gravatar.com/emails">change</a>
   </div>
 </div>
