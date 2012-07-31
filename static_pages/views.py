@@ -4,11 +4,12 @@ from microposts.models import Micropost
 
 def home(request):
     form = MicropostForm()
-    user = request.session.get('current_user')
+    user = request.user
     if user:
-        gravatar = user.gravatar()
+        up = user.get_profile()
+        gravatar = up.gravatar()
         micropost_count = Micropost.objects.filter(user=user).count()
-        feed_items = user.feed()
+        feed_items = up.feed()
     else:
         gravatar = ''
         micropost_count = 0

@@ -6,6 +6,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns(
     '',
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^signup', 'users.views.new', name='signup'),
     url(r'^signin', 'rsessions.views.new', name='signin'),
     url(r'^signout', 'rsessions.views.delete', name='signout'),

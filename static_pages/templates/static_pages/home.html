@@ -2,19 +2,19 @@
 {% load static %}
 
 {% block title %}Home{% endblock %}
-{% block content %}
 
-{% if request.session.current_user %}
+{% block content %}
+{% if request.user %}
 <div class="row">
   <aside class="span4">
     <section>
       {{ gravatar|safe }}
-      <h1>{{ request.session.current_user.name }}</h1>
-      <span><a href="{% url user request.session.current_user.id %}">view my profile</a></span>
+      <h1>{{ request.user.get_full_name }}</h1>
+      <span><a href="{% url user request.user.id %}">view my profile</a></span>
       <span>{{ micropost_count }} microposts</span>
     </section>
     <section>
-      {% include "_stats.html" %}
+      % include "_stats.html" %}
     </section>
     <section>
       <form action="{% url new_micropost %}" method="post">
