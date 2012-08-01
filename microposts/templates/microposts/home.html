@@ -9,10 +9,10 @@
 <div class="row">
   <aside class="span4">
     <section>
-      {{ gravatar|safe }}
+      {{ user.get_profile.gravatar|safe }}
       <h1>{{ user.get_full_name }}</h1>
       <span><a href="{% url user user.username %}">view my profile</a></span>
-      <span>{{ micropost_count }} microposts</span>
+      <span>{{ user.micropost_set.count }} microposts</span>
     </section>
     <section>
       {% include "_stats.html" %}
@@ -28,9 +28,8 @@
 
   <div class="span8">
     <h3>Micropost Feed</h3>
-    {% if feed_items %}
     <ol class="microposts">
-      {% for mp in feed_items %}
+      {% for mp in user.get_profile.feed %}
       <li id="{{ mp.id }}">
         {{ mp.gravatar|safe }}
         <span class="user">
@@ -38,18 +37,17 @@
         </span>
         <span class="content">{{ mp.content }}</span>
         <span class="timestamp">Posted {{ mp.created_at|timesince }} ago.</span>
-        {% if request.user == mp.user %}
+        {% if user == mp.user %}
         <form action="{% url delete_micropost mp.id %}" method="post">
           {% csrf_token %}
           <input class="btn" type="submit" value="Delete" />
         </form>
         {% endif %}
       </li>
+      {% empty %}
+      <li>No microposts in your feed. Follow more talkative people!</li>
       {% endfor %}
     </ol>
-    {% else %}
-    <p>Come on, say something!</p>
-    {% endif %}
   </div>
 </div>
 {% else %}

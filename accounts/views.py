@@ -30,15 +30,14 @@ def logout(request):
     return redirect(reverse('home'))
 
 def show(request, username):
-    user = User.objects.get(username=username)
-    microposts_list = Micropost.objects.filter(user=user.id)
+    user = get_object_or_404(User, username=username)
+    microposts_list = user.micropost_set.all()
     paginator = Paginator(microposts_list, 50)
     button = None
 
     if request.user.is_authenticated():
         if user != request.user:
-            request_profile = request.user.get_profile()
-            if request_profile.following_p(user):
+            if request.user.get_profile().following_p(user):
                 button = 'unfollow'
             else:
                 button = 'follow'

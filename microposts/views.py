@@ -31,16 +31,5 @@ def home(request):
     form = MicropostForm()
     user = request.user
 
-    if user.is_authenticated():
-        gravatar = user.get_profile().gravatar()
-        micropost_count = Micropost.objects.filter(user=user).count()
-        feed_items = user.get_profile().feed()
-    else:
-        gravatar = ''
-        micropost_count = 0
-        feed_items = ''
     return render(request, 'microposts/home.html', {'form': form,
-                                                    'gravatar': gravatar,
-                                                    'micropost_count': micropost_count,
-                                                    'feed_items': feed_items,
                                                     'user': user})
