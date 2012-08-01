@@ -8,12 +8,12 @@ from microposts.models import Micropost
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     followers = models.ManyToManyField(User,
-                                       related_name='follower',
+                                       related_name='followed_users',
                                        symmetrical=False,
                                        blank=True,
                                        null=True)
     followed_users = models.ManyToManyField(User,
-                                            related_name='followed_user',
+                                            related_name='followers',
                                             symmetrical=False,
                                             blank=True,
                                             null=True)
