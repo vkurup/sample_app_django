@@ -34,7 +34,6 @@ def show(request, username):
     microposts_list = Micropost.objects.filter(user=user.id)
     paginator = Paginator(microposts_list, 50)
     button = None
-    up = user.get_profile()
 
     if request.user.is_authenticated():
         if user != request.user:
@@ -53,7 +52,6 @@ def show(request, username):
         microposts = paginator.page(paginator.num_pages)
 
     return render(request, 'accounts/show.html', {'user': user,
-                                                  'up': up,
                                                   'microposts': microposts,
                                                   'button': button})
 
@@ -79,24 +77,21 @@ def edit(request, user_id):
 def follow(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
-        up = request.user.get_profile()
-        up.follow(user)
+        request.user.get_profile().follow(user)
         return redirect(user)
 
 @login_required
 def unfollow(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
-        up = request.user.get_profile()
-        up.unfollow(user)
+        request.user.get_profile().unfollow(user)
         return redirect(user)
 
 
 def following(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    up = user.get_profile()
     title = "Following"
-    users_list = up.followed_users.all()
+    users_list = user.get_profile().followed_users.all()
     paginator = Paginator(users_list, 50)
 
     page = request.GET.get('page')
@@ -113,9 +108,8 @@ def following(request, user_id):
 
 def followers(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    up = user.get_profile()
     title = "Followers"
-    users_list = up.followers.all()
+    users_list = user.get_profile().followers.all()
     paginator = Paginator(users_list, 50)
 
     page = request.GET.get('page')

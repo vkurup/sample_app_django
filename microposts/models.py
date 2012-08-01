@@ -14,5 +14,4 @@ class Micropost(models.Model):
         return "%s: %s" % (self.user, self.content)
 
     def gravatar(self):
-        up = self.user.get_profile()
-        return up.gravatar(size=30)
+        return self.user.get_profile().gravatar(size=30)

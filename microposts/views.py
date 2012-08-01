@@ -32,12 +32,10 @@ def home(request):
     user = request.user
 
     if user.is_authenticated():
-        up = user.get_profile()
-        gravatar = up.gravatar()
+        gravatar = user.get_profile().gravatar()
         micropost_count = Micropost.objects.filter(user=user).count()
-        feed_items = up.feed()
+        feed_items = user.get_profile().feed()
     else:
-        up = ''
         gravatar = ''
         micropost_count = 0
         feed_items = ''
@@ -45,7 +43,4 @@ def home(request):
                                                     'gravatar': gravatar,
                                                     'micropost_count': micropost_count,
                                                     'feed_items': feed_items,
-                                                    'user': user,
-                                                    'up': up})
-
-    
+                                                    'user': user})
